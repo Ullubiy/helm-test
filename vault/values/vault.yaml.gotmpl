@@ -1,0 +1,38 @@
+clusterDomain: "cluster.local"
+global:
+  storageClass: {{ .Values | get "vault.storageClass" | quote }}
+server:
+  replicaCount: {{ .Values | get "vault.server.replicaCount" }}
+  image:
+    registry: {{ .Values | get "vault.server.registry" }}
+    repository: {{ .Values | get "vault.server.repository" }}
+    tag: {{ .Values | get "vault.server.tag" }}
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: vault
+              app.kubernetes.io/instance: vault
+              app.kubernetes.io/component: server
+          namespaces:
+            - "{{ .Release.Namespace }}"
+          topologyKey: {{ .Values | get "vault.server.topologyKey" }}
+  {{- with .Values | get "vault.server.resources" }}
+  resources:
+    {{- . | toYaml | nindent 4 }}
+  {{- end }}
+    storage:
+      type: raft
+  serviceAccount:
+    create: true
+  rbac:
+    create: true
+  persistence:
+    data:
+      enabled: true
+      size: {{ .Values | get "vault.server.persistence.data.size" }}
+    audit:
+      enabled: true
+      size: {{ .Values | get "vault.server.persistence.audit.size" }}
+

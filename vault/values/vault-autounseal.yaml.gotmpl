@@ -1,0 +1,14 @@
+server:
+  replicaCount: {{ .Values | get "vault-autounseal.server.replicaCount" 1 }}
+  serviceAccount:
+    create: true
+  rbac:
+    create: true
+  persistence:
+    data:
+      enabled: true
+      size: {{ .Values | get "vault.server.persistence.data.size" }}
+    audit:
+      enabled: true
+      size: {{ .Values | get "vault.server.persistence.audit.size" }}
+

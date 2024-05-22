@@ -1,0 +1,26 @@
+vault:
+  # vault default storage class:
+  storageClass: "csi-ceph-ssd-me1"
+  server:
+    # Default number of replicas:
+    replicaCount: 1
+    registry: "docker.io"
+    repository: "bitnami/vault" 
+    tag: "1.16.2-debian-12-r3"
+    # Server nodes topology key:
+    topologyKey: "kubernetes.io/hostname"
+    # Default vault server resources:
+    resources:
+      limits:
+        cpu: "200m"
+        memory: "512Mi"
+      requests:
+        cpu: "100m"
+        memory: "256Mi"
+    # Default persistence settings:
+    persistence:
+      data:
+        size: "10Gi"
+      audit:
+        size: "10Gi"
+

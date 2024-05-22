@@ -1,0 +1,23 @@
+---
+environments:
+  default:
+    values:
+      - ./environment.yaml.gotmpl
+
+---
+releases:
+
+  - name: "vault"
+    namespace: "vault"
+    chart: "./chart/vault"
+    installed: true
+    values:
+      - values/vault.yaml.gotmpl
+
+  - name: "vault-autounseal"
+    namespace: "vault"
+    chart: "./chart/vault-autounseal"
+    installed: true
+    values:
+      - values/vault-autounseal.yaml.gotmpl
+
